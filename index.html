@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رسالة حب - أول عيد لنا</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6f0;
+      overflow: hidden;
+      direction: rtl;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.6;
+      animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); }
+      100% { transform: translateY(-100vh); }
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #c2185b;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    p.intro {
+      font-size: 1.3rem;
+      color: #880e4f;
+      margin-bottom: 40px;
+    }
+
+    .button {
+      background: linear-gradient(45deg, #f06292, #c2185b);
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(194, 24, 91, 0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      margin-top: 30px;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(194, 24, 91, 0.6);
+    }
+
+    .button::before,
+    .button::after {
+      content: "💖";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.3); }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+
+    .button::before {
+      left: -25px;
+    }
+
+    .button::after {
+      right: -25px;
+    }
+
+    .envelope {
+      width: 300px;
+      height: 200px;
+      background: #fff0f5;
+      border: 2px solid #f48fb1;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.5s;
+    }
+
+    .envelope:hover {
+      transform: translateY(-10px) rotate(-2deg);
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 50%, #f8bbd0 50%);
+      clip-path: polygon(0 0, 100% 0, 50% 60%);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .message-container {
+      padding: 30px;
+      max-width: 800px;
+      margin: 50px auto;
+      position: relative;
+      z-index: 1;
+      display: none;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #f48fb1;
+      border-radius: 12px;
+      animation: slideUp 1s ease-out forwards;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(5px);
+      max-height: 70vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #f48fb1 #ffe6f0;
+    }
+
+    .message-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .message-container::-webkit-scrollbar-thumb {
+      background-color: #f48fb1;
+      border-radius: 10px;
+    }
+    .message-container::-webkit-scrollbar-track {
+      background-color: #ffe6f0;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(100vh); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .message-container h1 {
+      font-size: 2.8rem;
+      color: #c2185b;
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 20px;
+    }
+
+    .message-container p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #880e4f;
+      margin-bottom: 15px;
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 30px;
+      animation: rise 3s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rise {
+      0% { bottom: 0; opacity: 1; }
+      100% { bottom: 100vh; opacity: 0; }
+    }
+
+    .music-control {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background: linear-gradient(45deg, #e91e63, #9c27b0);
+      color: white;
+      border: none;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .music-control:hover {
+      transform: scale(1.1);
+    }
+
+    .music-control::after {
+      content: "I Found Love";
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      width: 100%;
+    }
+
+    .signature {
+      font-family: 'Arial', sans-serif;
+      font-size: 2rem;
+      color: #c2185b;
+      margin-top: 40px;
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="background" id="emojiBackground"></div>
+
+  <div class="container" id="intro">
+    <h1>أول عيد لينا سوا</h1>
+    <p class="intro">💕 دة أول عيد لينا مع بعض، ف كنت حابة ان يكون ميموري حلوة تفضل فاكرها دايما 💕</p>
+    <button class="button" onclick="showEnvelope()">افتح الرسالة</button>
+  </div>
+
+  <div class="message-container" id="message">
+    <h1>كل سنة وإنت حبيبي يا عمر</h1>
+    <p>أول عيد لينا سوا، وأول مرة في حياتي أحس إن العيد ليه طعم تاني،<br>
+    طعم مختلف كده، دافي، ومليان حب…<br>
+    مش علشان اللبس الجديد ولا الخروجات ولا الزينة والكلام ده كله أكيد يعني،<br>
+    لأ… علشانك إنت.</p>
+    
+    <p>إنت الشخص اللي دخل حياتي وغيّر نظرتي لكل حاجة،<br>
+    خلاني أبص للدنيا بشكل مختلف، بعيون فيها أمل، وفيها حب،<br>
+    وفيها ضحكة طالعة من قلبي بجد.<br>
+    إنت أول واحد حسّسني إن الحب مش مجرد كلمة، ولا مشاعر وخلاص،<br>
+    الحب فعل… حضن في وقت الزعل، كلمة حلوة وقت التعب،<br>
+    ضهر وقت الضعف، ووجود بيطمن من غير ما يتكلم.</p>
+    
+    <p>أول عيد ليا وأنا معايا واحد بالدنيا دي كلها،<br>
+    وأول عيد لينا سوا… كنت وأنا مبسوطة عشان أنا مبسوطة… علشان إنت معايا.</p>
+    
+    <p>فاكر أول مرة اتقابلنا يا عمر؟<br>
+    كنت مكسوفة أوي، كنت خايفة يمكن، أو متوترة…<br>
+    بس من أول لحظة، حسيت إن في حاجة حلوة بتحصل،<br>
+    زي ما تكون ربنا كان بيرتبنا لبعض من زمان.</p>
+    
+    <p>ومن يومها، وأنا كل يوم بحس إنك مش بس خطيبي أو حبيبي،<br>
+    إنت صاحبي، وابويا وحياتي وروحي وكل حاجة حلوة في حياتي،<br>
+    وأكتر حد بعرف أكون على طبيعتي قدامه من غير تمثيل، ومن غير كسوف،<br>
+    وأكتر واحد مش بعرف اخبي عنه حاجة.</p>
+    
+    <p>وعلى فكرة أنا بحب رخامتك يا رخم،<br>
+    وبحب غيرتك اللي بتخوف، وبحب عنادك اللي بيستفزني…<br>
+    بس في الآخر بضحك! لأنك مهما عملت،<br>
+    أنت بتفضل حبيبي إللي ماليش غيره في الدنيا دي.</p>
+    
+    <p>وكمان عايزة أقولك حاجة،<br>
+    أنت رزقي الحلو، اللي جه من غير ميعاد،<br>
+    واللي وجوده بيخليني متطمنة إن بكرا أحلى، طول ما إنت موجود.<br>
+    أنت الأمان اللي كنت بدور عليه، والصاحب اللي كنت مستنياه،<br>
+    والحبيب اللي كنت بتمناه.</p>
+    
+    <p>وعلشان دي أول سنة لينا سوا،<br>
+    فـ أنا بوعدك قدام قلبي وقلبك،<br>
+    إني هفضل دايمًا معاك طول العمر…<br>
+    في كل عيد، في كل وقت، في كل لحظة هنعديها سوا،<br>
+    حلوة أو وحشة ف احنا هنفضل احنا يا عمر وبأكد عليك تاني أهو،<br>
+    أي حاجة في الدنيا دي اسمها احنا مع بعض…<br>
+    هنضحك، ونتخانق، ونتصالح، ونتغير، ونقرب…<br>
+    بس أهم حاجة منبعدش، عشان أنا مقدرش ابعد عنك أصلاً ولا أعيش لحظة من غيرك.</p>
+    
+    <p>أنا مش عايزة حاجة من الدنيا دي والله غير إن أكون معاك بس،<br>
+    عايزة أشوف حب عمر ليا بيزيد مش بيقل،<br>
+    نفضل طول العمر كويسين وبنحب بعض على طول، ومالناش غير بعض.</p>
+    
+    <p>وأهو العيد جه… وكل إللي أنا عايزاه، إن أفضل معاك على طول بس.<br>
+    كل سنة وإنت أول حد بيفرحني، وأول حد بيدفي قلبي،<br>
+    وأول حد بفتكره وأنا بقول "الحمدلله على كل حاجة".</p>
+    
+    <p>كل سنة وإنت بخير… وإحنا مع بعض، وقلبي فحضنك.</p>
+    
+    <div class="signature"><strong>وبحبك دايمًا أكتر 🥰</strong></div>
+  </div>
+
+  <button class="music-control" id="musicBtn">🎵</button>
+
+  <audio id="bgMusic" loop>
+    <!-- الرابط الخاص بك من جوجل درايف -->
+    <source src="https://drive.google.com/uc?export=download&id=1gl42WSEi_9pQwo0qu5I02RTkW4ntSWwP" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const message = document.getElementById('message');
+    const emojiBackground = document.getElementById('emojiBackground');
+    const musicBtn = document.getElementById('musicBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    const emojis = ['💌','💖','💕','💘','❤️','😍','🌸','🥰'];
+
+    function createEmojis() {
+      for (let i = 0; i < 40; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.top = Math.random() * 100 + 'vh';
+        emoji.style.fontSize = (1 + Math.random() * 2) + 'rem';
+        emoji.style.animationDuration = (10 + Math.random() * 20) + 's';
+        emoji.style.animationDelay = Math.random() * 5 + 's';
+        emojiBackground.appendChild(emoji);
+      }
+    }
+
+    function setupMusic() {
+      bgMusic.volume = 0.5;
+      bgMusic.muted = true;
+      
+      try {
+        bgMusic.play().then(() => {
+          musicBtn.textContent = '🔇';
+        });
+      } catch (e) {
+        console.log("التشغيل التلقائي محظور:", e);
+        musicBtn.textContent = '🎵';
+      }
+      
+      musicBtn.addEventListener('click', function() {
+        if (bgMusic.paused) {
+          bgMusic.currentTime = 20; // تبدأ من الثانية 20
+          bgMusic.play();
+          musicBtn.textContent = '🔊';
+          bgMusic.muted = false;
+        } else {
+          bgMusic.pause();
+          musicBtn.textContent = '🎵';
+        }
+      });
+    }
+
+    function showEnvelope() {
+      intro.innerHTML = `
+        <div class="envelope" onclick="showMessage()"></div>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: #6a1b9a;">في رسالة ليك هنا 🥰</p>
+      `;
+    }
+
+    function showMessage() {
+      intro.style.display = 'none';
+      message.style.display = 'block';
+      startHearts();
+      
+      // زيادة صوت الموسيقى عند ظهور الرسالة
+      bgMusic.volume = 0.6;
+      if (bgMusic.muted) {
+        bgMusic.muted = false;
+        musicBtn.textContent = '🔊';
+      }
+    }
+
+    function startHearts() {
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '0';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }
+      setInterval(createHeart, 300);
+    }
+
+    window.onload = function() {
+      createEmojis();
+      setupMusic();
+    };
+  </script>
+</body>
+</html>
